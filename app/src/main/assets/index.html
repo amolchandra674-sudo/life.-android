@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f2e8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Life">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Life</title>
+<style>
+:root{
+  --bg:#f7f2e8;--paper:#fbf8f1;--card:#fffdf8;--card2:#f3eee4;--line:#e5ddcf;
+  --text:#283128;--muted:#7f877d;--green:#5f7860;--green-soft:#e7efe5;--green-mid:#c9d8c5;
+  --blue:#6e8799;--blue-soft:#eaf0f4;--warm:#c58e69;--warm-soft:#f7ebe1;--danger:#a55d5d;
+  --shadow:0 10px 35px rgba(67,58,44,.08);--radius:22px
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#faf6ee 0,#f3ede3 100%);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;min-height:100vh;padding:0 16px calc(88px + env(safe-area-inset-bottom))}
+.topbar{position:sticky;top:0;z-index:7;padding:14px 0 12px;background:linear-gradient(var(--bg) 75%,rgba(247,242,232,0));display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:58px;height:40px;border-radius:14px;background:#f0eadc;color:#3f5b43;display:flex;align-items:center;justify-content:center;font:600 18px/1 Georgia,"Times New Roman",serif;font-style:italic;box-shadow:0 4px 18px rgba(83,71,52,.08);position:relative;overflow:hidden}.logo:after{content:"";position:absolute;left:-2px;right:-2px;bottom:-10px;height:18px;background:linear-gradient(155deg,transparent 30%,#99ab8d 31%,#99ab8d 62%,transparent 63%)}.brand h1{display:none}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:#b7bdb4}.dot.on{background:#77967a;box-shadow:0 0 0 5px rgba(119,150,122,.09)}
+.screen{display:none}.screen.active{display:block}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.muted,.tiny{color:var(--muted);font-size:12px}.title{font-size:30px;line-height:1.1;letter-spacing:-.035em;margin:4px 0 4px}
+.card{background:rgba(255,253,248,.9);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero{padding:19px;background:linear-gradient(145deg,#fffdf8,#f5efe4)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.grow{flex:1;min-width:0}
+.current-title{font-size:31px;line-height:1.08;margin:5px 0 3px;letter-spacing:-.035em}
+.current-note{font-size:13px;color:var(--muted)}
+.flow{margin-top:14px;min-height:35px;padding:8px 11px;border-radius:12px;background:var(--green-soft);color:var(--green);display:flex;justify-content:space-between;align-items:center;border:1px solid #d7e4d4;transition:.2s}.flow.off{background:transparent;border-color:var(--line);color:var(--muted)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.actions .wide{grid-column:1/-1}
+button{border:1px solid var(--line);border-radius:13px;background:var(--card);color:var(--text);padding:10px 13px;transition:.15s ease}button:hover{transform:translateY(-1px)}button:disabled{opacity:.42;cursor:default;transform:none}
+.primary{background:var(--green);border-color:var(--green);color:#fff;font-weight:700}.soft{background:var(--green-soft);border-color:#d7e4d4;color:#4f684f}.ghost{background:transparent}.danger{color:var(--danger)}
+.quick{width:42px;height:42px;padding:0;font-size:22px;background:rgba(255,253,248,.7)}
+.today-card{margin-top:12px;padding:16px}.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.section-title{font-size:14px;font-weight:800;letter-spacing:.02em}.section-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.today-list{margin-top:10px}.today-focus{padding:13px 14px;border:1px solid #dfe7da;background:linear-gradient(145deg,#f5f8f0,#edf3e9);border-radius:15px}.done-focus{background:#f3efe7;border-color:var(--line)}.next-name{font-size:19px;font-weight:750;letter-spacing:-.02em;margin:3px 0}.today-next-list{margin-top:7px}.today-next-list .mini-task{background:transparent;padding:7px 2px}.today-next-list .mini-task + .mini-task{border-top:1px solid var(--line);border-radius:0}.time-group{margin-top:13px}.time-group:first-child{margin-top:0}.time-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.mini-task{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid transparent;border-radius:12px;margin-top:4px}.mini-task:hover{background:var(--card2);border-color:var(--line)}.check{width:16px;height:16px;border-radius:50%;border:1.5px solid #b9bfb6;flex:0 0 auto}.mini-task.done .check{background:var(--green);border-color:var(--green);position:relative}.mini-task.done .check:after{content:"✓";position:absolute;color:#fff;font-size:10px;left:2px;top:-1px}.mini-task.skip .check{border-color:#c6a48c;background:#f4e6d9}.mini-status{margin-left:auto;font-size:11px;color:var(--muted)}
+.open-link{border:0;background:transparent;color:var(--green);padding:5px 0}.open-link:hover{transform:none;text-decoration:underline}
+.soft-note{padding:10px 12px;border:1px dashed var(--line);border-radius:13px;color:var(--muted);font-size:12px;margin-top:10px}
+.plan-toggle{display:flex;background:#eee7dc;padding:4px;border-radius:14px;gap:4px;margin:12px 0}.plan-toggle button{flex:1;border:0;background:transparent;padding:9px;border-radius:10px;color:var(--muted)}.plan-toggle button.active{background:var(--card);box-shadow:0 2px 10px rgba(67,58,44,.07);color:var(--text);font-weight:700}
+.scrollbox{max-height:68vh;overflow:auto;padding-right:3px}.task-list-card{padding:14px}.task{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:15px;background:rgba(255,253,248,.75);border:1px solid var(--line);margin-top:7px}.task.active{border-color:#a7bca3;box-shadow:0 0 0 1px rgba(95,120,96,.12)}.task.done{opacity:.58}.task.skip{background:#fbf4ed;border-color:#eadbcf}.task-name{font-weight:700}.task-meta{font-size:11px;color:var(--muted);margin-top:2px}.task-actions{display:flex;gap:6px}.small{padding:8px 9px;border-radius:10px}.more{width:39px;padding:8px 0;text-align:center;font-size:18px}
+.sheet-bg{position:fixed;inset:0;background:rgba(60,54,45,.32);backdrop-filter:blur(3px);display:none;z-index:20}.sheet-bg.open{display:block}.sheet{position:fixed;z-index:21;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);max-height:86vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:24px 24px 0 0;box-shadow:0 -20px 70px rgba(68,59,45,.18);padding:17px 16px calc(22px + env(safe-area-inset-bottom));display:none}.sheet.open{display:block}.handle{width:40px;height:4px;background:#d7cdbd;border-radius:99px;margin:0 auto 14px}.sheet h2{font-size:19px;margin:0}.option{width:100%;text-align:left;background:var(--card);margin-top:8px}.option:hover{background:#f8f3e9}.input,select{width:100%;padding:11px 12px;background:#fffdf8;border:1px solid var(--line);border-radius:12px;color:var(--text);margin-top:6px}label{display:block;font-size:12px;color:var(--muted);margin-top:11px}.sheet-actions{display:grid;gap:8px;margin-top:12px}.sheet-actions.grid2{grid-template-columns:1fr 1fr}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;margin-top:12px}.table{width:100%;border-collapse:collapse;min-width:330px}.table th,.table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}.table th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:#f3eee4}.table tr:last-child td{border-bottom:0}
+.subject-group{margin-top:15px}.subject-group:first-child{margin-top:0}.subject-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px}.subject-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.subject-row:last-child{border-bottom:0}.count{font-size:12px;color:var(--green)}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.metric{padding:13px;border:1px solid var(--line);border-radius:15px;background:var(--card)}.metric strong{font-size:18px}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:8;width:calc(100% - 24px);max-width:520px;background:rgba(255,253,248,.94);backdrop-filter:blur(18px);border:1px solid rgba(229,221,207,.95);box-shadow:0 12px 35px rgba(67,58,44,.13);padding:7px;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);margin:auto}.bottom button{border:0;background:transparent;color:var(--muted);padding:8px 4px 7px;border-radius:15px;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.bottom button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.bottom button.active{background:#eef3ea;color:#4f684f;box-shadow:none}.bottom button.active svg{stroke-width:2}
+.toast{position:fixed;left:50%;bottom:93px;transform:translateX(-50%) translateY(10px);padding:10px 13px;border-radius:13px;background:#334238;color:#fff;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.footer{text-align:center;color:var(--muted);font-size:11px;margin:14px 0}.empty{text-align:center;color:var(--muted);padding:20px 8px}
+
+@media(max-width:520px){.actions{grid-template-columns:1fr}.actions .wide{grid-column:auto}.current-title{font-size:27px}}
+@media print{.topbar,.bottom,.actions,.flow,.quick,.no-print{display:none!important}.screen{display:block!important}.card,.hero{box-shadow:none;background:#fff;border:1px solid #ddd}.app{padding:0}.sheet,.sheet-bg{display:none!important}.print-only{display:block}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">Life</div></div>
+  <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Nothing active</span></div>
+</header>
+
+<section id="home" class="screen active">
+  <div class="card hero">
+    <div class="row">
+      <div class="grow">
+        <div class="eyebrow">Right now</div>
+        <div class="current-title" id="currentTitle">Nothing active</div>
+        <div class="current-note" id="currentSubtitle">Choose something when you're ready.</div>
+      </div>
+      <button class="quick" id="homeQuick" aria-label="More">⋯</button>
+    </div>
+    <div class="flow off" id="flowBar"><span id="flowLabel">Doing</span><span class="tiny" id="flowHint">Nothing active</span></div>
+    <div class="actions">
+      <button class="primary" id="finishBtn" disabled>Finish</button>
+      <button class="soft" id="stuckBtn">I'm stuck</button>
+      <button id="happenedBtn" class="wide">What happened?</button>
+    </div>
+  </div>
+
+  <div class="card today-card">
+    <div class="section-head"><div><div class="section-title">Routine · Today</div><div class="section-sub" id="routineModeLabel">Regularly Plan</div></div><button class="open-link" id="routineOpen">Open</button></div>
+    <div class="today-list" id="routineToday"></div>
+  </div>
+
+  <div class="card today-card">
+    <div class="section-head"><div><div class="section-title">Study · Today</div><div class="section-sub">Same study plan on every routine day.</div></div><button class="open-link" id="studyOpen">Open</button></div>
+    <div class="today-list" id="studyToday"></div>
+  </div>
+
+</section>
+
+<section id="routine" class="screen">
+  <div class="card today-card">
+    <div class="eyebrow">Routine</div><div class="title">Plans</div><div class="section-sub">The two routine modes change only the routine. Study stays the same.</div>
+    <div class="plan-toggle"><button id="regTab">Regularly Plan</button><button id="fallTab">Fall Back Plan</button></div><div class="tiny" id="planActiveNote" style="margin-bottom:8px">This choice controls the routine shown on Home.</div>
+    <div class="scrollbox" id="routineList"></div>
+  </div>
+</section>
+
+<section id="study" class="screen">
+  <div class="card today-card"><div class="eyebrow">Study</div><div class="title">Study plan</div><div class="section-sub">No subject or topic needs to be entered.</div><div class="scrollbox" id="studyList" style="margin-top:12px"></div></div>
+</section>
+
+<section id="track" class="screen">
+  <div class="card today-card"><div class="eyebrow">Track</div><div class="title">Life records</div><div class="section-sub">Everything stays on this device unless you export it.</div>
+    <div class="metric-grid"><div class="metric"><div class="tiny">Latest weight</div><strong id="latestWeight">—</strong></div><div class="metric"><div class="tiny">Total revisions</div><strong id="totalRevisions">0</strong></div></div>
+    <div class="sheet-actions"><button class="option" id="weightOpen">Weight</button><button class="option" id="subjectsOpen">Subject revisions</button><button class="option" id="exportOpen">Export / backup</button></div>
+  </div>
+</section>
+
+<section id="weight" class="screen">
+  <div class="card today-card"><div class="row"><div><div class="eyebrow">Health</div><div class="title">Weight</div></div><button class="open-link" data-back="track">Back</button></div>
+    <div class="metric-grid"><div class="metric"><div class="tiny">Latest</div><strong id="weightLatest">—</strong></div><div class="metric"><div class="tiny">Entries</div><strong id="weightCount">0</strong></div></div>
+    <label>Weight (kg)<input class="input" id="weightInput" type="number" step="0.1" inputmode="decimal" placeholder="96.4"></label>
+    <button class="primary" id="saveWeight" style="margin-top:10px">Save weight</button>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Date</th><th>Weight</th></tr></thead><tbody id="weightTable"></tbody></table></div>
+    <div id="weightEmpty" class="empty">No weight entries yet.</div>
+  </div>
+</section>
+
+<section id="subjects" class="screen">
+  <div class="card today-card"><div class="row"><div><div class="eyebrow">Revision tracker</div><div class="title">Subject completed</div><div class="section-sub">Tap Completed after finishing a revision.</div></div><button class="open-link" data-back="track">Back</button></div><div id="subjectList" style="margin-top:12px"></div></div>
+</section>
+
+<section id="export" class="screen">
+  <div class="card today-card"><div class="row"><div><div class="eyebrow">Data</div><div class="title">Export Life</div><div class="section-sub">Use JSON when you want to share the complete data with ChatGPT.</div></div><button class="open-link" data-back="track">Back</button></div>
+    <div class="sheet-actions"><button class="option" id="exportJson">Export JSON backup</button><button class="option" id="exportCsv">Export activity CSV</button><button class="option" id="exportText">Export text summary</button><button class="option" id="printPdf">Print / save as PDF</button><button class="option" id="importBackup">Import JSON backup</button><input id="importFile" type="file" accept="application/json,.json" hidden></div>
+    <div class="soft-note">Life is local-first. No account or server is required for this version.</div>
+  </div>
+</section>
+
+<div class="sheet-bg" id="sheetBg"></div>
+
+<div class="sheet" id="taskSheet"><div class="handle"></div><div class="row"><div><h2 id="taskSheetTitle">Task</h2><div class="tiny" id="taskSheetMeta"></div></div><button class="ghost" id="closeSheet">×</button></div>
+  <div class="sheet-actions"><button id="taskStart" class="option">Start</button><button id="taskPause" class="option">Pause</button><button id="taskResume" class="option">Resume</button><button id="taskComplete" class="option">Completed</button><button id="taskStop" class="option">Stop without completing</button><button id="taskSkip" class="option">Skip for today</button><button id="taskEdit" class="option">Edit task</button><button id="taskDeleteToday" class="option">Delete for today</button><button id="taskDeleteForever" class="option danger">Delete every day from now on</button></div>
+</div>
+
+<div class="sheet" id="quickSheet"><div class="handle"></div><div class="row"><div><h2>More</h2><div class="tiny">The extra tools stay out of the way.</div></div><button class="ghost" data-close>×</button></div>
+  <div class="sheet-actions"><button class="option" id="quickAdd">Add / edit task</button><button class="option" id="quickWeight">Weight</button><button class="option" id="quickSubjects">Subject revisions</button><button class="option" id="quickExport">Export / backup</button></div>
+</div>
+
+<div class="sheet" id="stuckSheet"><div class="handle"></div><div class="row"><div><h2>What's getting in the way?</h2><div class="tiny">Life will give you one small response.</div></div><button class="ghost" data-close>×</button></div>
+  <div class="sheet-actions"><button class="option" data-stuck="starting"><strong>I'm avoiding starting</strong><br><span class="tiny">Make the first action smaller.</span></button><button class="option" data-stuck="tired"><strong>I'm mentally tired</strong><br><span class="tiny">Lower the demand.</span></button><button class="option" data-stuck="confused"><strong>I don't understand</strong><br><span class="tiny">Clarify before doing more.</span></button><button class="option" data-stuck="distracted"><strong>I got distracted</strong><br><span class="tiny">Return to the current thing.</span></button><button class="option" data-stuck="planning"><strong>I'm planning instead of doing</strong><br><span class="tiny">Stop planning and do the next action.</span></button></div>
+</div>
+
+<div class="sheet" id="stuckResponseSheet"><div class="handle"></div><div class="row"><div><h2 id="stuckTitle">A small next step</h2><div class="tiny">No new plan required.</div></div><button class="ghost" data-close>×</button></div>
+  <div class="soft-note" id="stuckBody" style="margin-top:12px"></div><div class="sheet-actions"><button class="primary" id="stuckBack">Back to task</button><button id="stuckHome">Back to home</button></div>
+</div>
+
+<div class="sheet" id="summarySheet"><div class="handle"></div><div class="row"><div><h2>What happened?</h2><div class="tiny">Recent activity, including finish times.</div></div><button class="ghost" data-close>×</button></div><div id="summaryBody" class="soft-note" style="margin-top:12px"></div></div>
+
+<div class="sheet" id="editSheet"><div class="handle"></div><div class="row"><div><h2 id="editTitle">Add task</h2><div class="tiny">Choose where it belongs and how often it repeats.</div></div><button class="ghost" data-close>×</button></div>
+  <label>Task name<input class="input" id="editName" placeholder="e.g. Take a walk"></label>
+  <label>Plan<select class="input" id="editPlan"><option>Regularly Plan</option><option>Fall Back Plan</option><option>Study</option></select></label>
+  <label>Time of day<select class="input" id="editGroup"><option>Morning</option><option>Noon</option><option>Afternoon</option><option>Evening</option></select></label>
+  <label>Repeat<select class="input" id="editRepeat"><option>Every day from now on</option><option>Today only</option></select></label>
+  <div class="sheet-actions"><button class="primary" id="saveTask">Save task</button></div>
+</div>
+
+<div class="sheet" id="confirmSheet"><div class="handle"></div><div class="row"><div><h2 id="confirmTitle">Are you sure?</h2><div class="tiny" id="confirmText"></div></div><button class="ghost" data-close>×</button></div><div class="sheet-actions grid2"><button data-close>Cancel</button><button class="primary" id="confirmDo">Confirm</button></div></div>
+
+<div class="toast" id="toast"></div>
+<nav class="bottom" aria-label="Main navigation">
+  <button class="active" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></svg><span>Home</span></button>
+  <button data-nav="routine"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12"/><path d="M6 9.5h12"/><path d="M6 14.5h8"/><path d="M4 4.5h.01M4 9.5h.01M4 14.5h.01"/></svg><span>Routine</span></button>
+  <button data-nav="study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h10a4 4 0 0 1 4 4V19H9a4 4 0 0 0-4 4z"/><path d="M5 4.5v18.5"/><path d="M9 8h6M9 11.5h6"/></svg><span>Study</span></button>
+  <button data-nav="track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5 9 13l4 3 7-10"/><path d="M4 19.5h17"/></svg><span>Track</span></button>
+</nav>
+
+<script>
+const KEY='life-v4-local';
+const groups=['Morning','Noon','Afternoon','Evening'];
+const defaults={routineMode:'Regularly Plan',regular:[['Morning','Wake up','06:00'],['Morning','Make bed',''],['Morning','Dust study table',''],['Morning','Drink water',''],['Morning','Brush teeth',''],['Morning','Walking cloth / shoes',''],['Morning','Go to park',''],['Morning','Pranayama 10 min',''],['Morning','Stretching 10 min',''],['Morning','Walk',''],['Morning','Exercise',''],['Morning','Make tea + meds',''],['Noon','Soak lentil / soya',''],['Noon','Milk for lunch',''],['Afternoon','Wash cloth',''],['Afternoon','Prepare meal',''],['Evening','Dry cloths',''],['Evening','Meds',''],['Evening','Cream application','']],fallback:[['Morning','Wake up',''],['Morning','Brush teeth',''],['Morning','Make tea + meds',''],['Morning','Snack',''],['Noon','Soak lentil / soya',''],['Noon','Prepare milk for lunch',''],['Evening','Prepare meal + meds','']],study:[['Morning','WoR video watching + annotating',''],['Morning','QBank + PYQ + 40 MCQ solving + bookmarking',''],['Morning','Pearls reading + bookmarking',''],['Afternoon','Memorization + recall',''],['Evening','Previous subject revision','']],events:[],weights:[],oneOffTasks:[],hiddenToday:[],skippedToday:[],subjects:[['1st year','Anatomy',0],['1st year','Physiology',0],['1st year','Biochemistry',0],['2nd year','Pathology',0],['2nd year','Microbiology',0],['2nd year','Pharmacology',0],['3rd year','Ophthalmology',0],['3rd year','ENT',0],['3rd year','PSM',0],['3rd year','FM',0],['4th year','Medicine',0],['4th year','Surgery',0],['4th year','OBGY',0],['4th year','Pediatrics',0],['SARPO subjects','Dermatology',0],['SARPO subjects','Anesthesia',0],['SARPO subjects','Radiology',0],['SARPO subjects','Psychiatry',0],['SARPO subjects','Orthopedics',0]]};
+let DB=load();let active=null;let editState=null;let selectedPlan=DB.routineMode;let confirmAction=null;
+function clone(x){return JSON.parse(JSON.stringify(x))}function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}function today(){return new Date().toISOString().slice(0,10)}function time(d){return new Date(d).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',hour12:false})}function now(){return new Date().toISOString()}
+function load(){try{const raw=localStorage.getItem(KEY)||localStorage.getItem('life-app-v1')||localStorage.getItem('life_data_v2');if(!raw)return clone(defaults);const x=JSON.parse(raw);const d={...clone(defaults),...x};d.regular=d.regular||clone(defaults.regular);d.fallback=(d.fallback||clone(defaults.fallback)).filter(t=>t[1]!=='Cream');d.regular=d.regular.map(t=>t[1]==='Day clothes'?[t[0],'Dry cloths',t[2]]:t);d.study=d.study||clone(defaults.study);d.events=d.events||[];d.weights=d.weights||[];d.oneOffTasks=d.oneOffTasks||[];d.hiddenToday=d.hiddenToday||[];d.skippedToday=d.skippedToday||[];d.subjects=d.subjects||clone(defaults.subjects);return d}catch{return clone(defaults)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(DB))}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.nav===id));if(id==='home')renderHome();if(id==='routine')renderRoutine();if(id==='study')renderStudy();if(id==='track')renderTrack();if(id==='weight')renderWeight();if(id==='subjects')renderSubjects()}
+function openSheet(id){document.getElementById('sheetBg').classList.add('open');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('open'));document.getElementById(id).classList.add('open')}
+function closeSheets(){document.getElementById('sheetBg').classList.remove('open');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('open'));editState=null;confirmAction=null}
+function planArr(p){return p==='Regularly Plan'?DB.regular:p==='Fall Back Plan'?DB.fallback:DB.study}
+function allTasks(p){const base=planArr(p).map((t,i)=>{const x=[...t];x._index=i;return x}).filter(t=>!hidden(p,t));const one=DB.oneOffTasks.filter(o=>o.date===today()&&o.plan===p).map(o=>[o.group,o.name,o.time||'',o.id]);return base.concat(one)}
+function key(p,t){return p+'|'+(t[3]?('one:'+t[3]):('base:'+t[0]+'|'+t[1]))}
+function hidden(p,t){return DB.hiddenToday.some(x=>x.date===today()&&x.key===key(p,t))}
+function skipped(p,t){return DB.skippedToday.some(x=>x.date===today()&&x.key===key(p,t))}
+function completed(p,name){return DB.events.some(e=>e.type==='complete'&&e.date===today()&&e.plan===p&&e.name===name)}
+function exception(arr,p,t){if(!arr.some(x=>x.date===today()&&x.key===key(p,t)))arr.push({date:today(),key:key(p,t)});save()}
+function removeException(arr,p,t){return arr.filter(x=>!(x.date===today()&&x.key===key(p,t)))}
+function taskRows(p){const list=allTasks(p);let html='';for(const g of groups){const items=list.map((t,i)=>({t,i})).filter(x=>x.t[0]===g);if(!items.length)continue;html+=`<div class="time-group"><div class="time-head"><span>${g}</span><span>${items.length}</span></div>`;for(const {t,i} of items){const done=completed(p,t[1]),skip=skipped(p,t),act=active&&active.key===key(p,t);html+=`<div class="task ${act?'active':''} ${done?'done':''} ${skip?'skip':''}"><div class="grow"><div class="task-name">${esc(t[1])}</div><div class="task-meta">${done?'Done':skip?'Skipped today':t[2]||'Ready when you are'}</div></div><div class="task-actions"><button class="small" data-start data-plan="${esc(p)}" data-index="${i}">${act?'Open':'Start'}</button><button class="more" data-more data-plan="${esc(p)}" data-index="${i}">⋯</button></div></div>`}html+='</div>'}return html||'<div class="empty">Nothing here yet.</div>'}
+function todayBlock(id,p){
+  const el=document.getElementById(id),list=allTasks(p);
+  if(!list.length){el.innerHTML='<div class="empty">No tasks.</div>';return}
+  const pending=list.filter(t=>!completed(p,t[1])&&!skipped(p,t));
+  const doneCount=list.filter(t=>completed(p,t[1])).length;
+  const skippedCount=list.filter(t=>skipped(p,t)).length;
+  const next=pending[0];
+  let html='';
+  if(next){
+    html+=`<div class="today-focus"><div class="tiny">NEXT UP</div><div class="next-name">${esc(next[1])}</div><div class="tiny">${esc(next[0])} · ${doneCount}/${list.length} done${skippedCount?` · ${skippedCount} skipped`:''}</div></div>`;
+    const preview=pending.slice(1,3);
+    if(preview.length){
+      html+=`<div class="today-next-list">`;
+      preview.forEach(t=>{html+=`<div class="mini-task"><span class="check"></span><div class="grow"><strong>${esc(t[1])}</strong><div class="tiny">${esc(t[0])}</div></div></div>`});
+      html+=`</div>`;
+    }
+  }else{
+    html+=`<div class="today-focus done-focus"><div class="tiny">TODAY</div><div class="next-name">${skippedCount===list.length?'Routine cleared for today':'All planned tasks done'}</div><div class="tiny">${doneCount} done${skippedCount?` · ${skippedCount} skipped`:''}</div></div>`;
+  }
+  el.innerHTML=html;
+}
+function renderHome(){const a=active;document.getElementById('currentTitle').textContent=a?a.name:(DB.events.filter(e=>e.type==='complete'&&e.date===today()).at(-1)?'Nothing active':'Nothing active');document.getElementById('currentSubtitle').textContent=a?(a.paused?'Paused':'In progress · '+time(a.start)):'Choose something when you\'re ready.';document.getElementById('finishBtn').disabled=!a;const on=!!(a&&!a.paused);document.getElementById('flowBar').classList.toggle('off',!on);document.getElementById('flowLabel').textContent=on?'Doing':'Flow protected';document.getElementById('flowHint').textContent=on?'App stays out of the way':'Nothing active';document.getElementById('statusDot').classList.toggle('on',on);document.getElementById('statusText').textContent=on?'Doing: '+a.name:'Nothing active';document.getElementById('routineModeLabel').textContent=DB.routineMode;todayBlock('routineToday',DB.routineMode);todayBlock('studyToday','Study')}
+function renderRoutine(){document.getElementById('regTab').classList.toggle('active',selectedPlan==='Regularly Plan');document.getElementById('fallTab').classList.toggle('active',selectedPlan==='Fall Back Plan');document.getElementById('planActiveNote').textContent='Home is using the '+selectedPlan+'.';document.getElementById('routineList').innerHTML=taskRows(selectedPlan)}
+function renderStudy(){document.getElementById('studyList').innerHTML=taskRows('Study')}
+function renderTrack(){const w=DB.weights.at(-1);document.getElementById('latestWeight').textContent=w?Number(w.weight).toFixed(1)+' kg':'—';document.getElementById('totalRevisions').textContent=DB.subjects.reduce((a,s)=>a+s[2],0)}
+function renderWeight(){const rows=DB.weights.slice().reverse().map(w=>`<tr><td>${esc(w.date)}</td><td>${Number(w.weight).toFixed(1)} kg</td></tr>`).join('');document.getElementById('weightTable').innerHTML=rows;document.getElementById('weightEmpty').style.display=DB.weights.length?'none':'block';document.getElementById('weightLatest').textContent=DB.weights.at(-1)?Number(DB.weights.at(-1).weight).toFixed(1)+' kg':'—';document.getElementById('weightCount').textContent=DB.weights.length}
+function renderSubjects(){const root=document.getElementById('subjectList'),years=['1st year','2nd year','3rd year','4th year','SARPO subjects'];let out='';for(const y of years){const items=DB.subjects.map((s,i)=>({s,i})).filter(x=>x.s[0]===y);out+=`<div class="subject-group"><div class="subject-title">${y}</div>`;for(const x of items)out+=`<div class="subject-row"><div class="grow"><strong>${esc(x.s[1])}</strong><div class="tiny">${x.s[2]} revision${x.s[2]===1?'':'s'}</div></div><span class="count">${x.s[2]}</span><button class="small soft" data-revision="${x.i}">Completed</button></div>`;out+='</div>'}root.innerHTML=out}
+function renderAll(){renderHome();renderRoutine();renderStudy();renderTrack()}
+function startTask(p,i){const list=allTasks(p),t=list[i];if(!t)return;if(active){DB.events.push({type:'stop',date:today(),at:now(),plan:active.plan,name:active.name});}active={plan:p,index:i,key:key(p,t),name:t[1],start:new Date(),paused:false};DB.events.push({type:'start',date:today(),at:now(),plan:p,name:t[1]});save();closeSheets();renderAll();openTask(p,i)}
+function openTask(p,i){const t=allTasks(p)[i];if(!t)return;document.getElementById('taskSheet').dataset.plan=p;document.getElementById('taskSheet').dataset.index=i;document.getElementById('taskSheetTitle').textContent=t[1];document.getElementById('taskSheetMeta').textContent=active&&active.key===key(p,t)?(active.paused?'Paused':'Doing now · started '+time(active.start)):(completed(p,t[1])?'Completed today':skipped(p,t)?'Skipped today':'Not started');syncTask();openSheet('taskSheet')}
+function syncTask(){const p=document.getElementById('taskSheet').dataset.plan,i=Number(document.getElementById('taskSheet').dataset.index),t=allTasks(p)[i];if(!t)return;const on=!!(active&&active.key===key(p,t));document.getElementById('taskStart').style.display=on?'none':'block';document.getElementById('taskPause').style.display=on&&!active.paused?'block':'none';document.getElementById('taskResume').style.display=on&&active.paused?'block':'none';document.getElementById('taskComplete').style.display=on?'block':'none';document.getElementById('taskStop').style.display=on?'block':'none';document.getElementById('taskSkip').textContent=skipped(p,t)?'Unskip for today':'Skip for today'}
+function completeTask(){if(!active)return;const end=new Date();DB.events.push({type:'complete',date:today(),at:now(),plan:active.plan,name:active.name,startTime:time(active.start),finishedTime:time(end),duration:Math.max(1,Math.round((end-active.start)/60000))});active=null;save();closeSheets();renderAll();toast('Done')}
+function pauseTask(){if(!active)return;active.paused=true;DB.events.push({type:'pause',date:today(),at:now(),plan:active.plan,name:active.name});save();syncTask();renderHome()}
+function resumeTask(){if(!active)return;active.paused=false;DB.events.push({type:'resume',date:today(),at:now(),plan:active.plan,name:active.name});save();syncTask();renderHome()}
+function stopTask(){if(!active)return;DB.events.push({type:'stop',date:today(),at:now(),plan:active.plan,name:active.name});active=null;save();closeSheets();renderAll();toast('Stopped')}
+function toggleSkip(){const el=document.getElementById('taskSheet'),p=el.dataset.plan,i=Number(el.dataset.index),t=allTasks(p)[i];if(skipped(p,t)){DB.skippedToday=removeException(DB.skippedToday,p,t);toast('Unskipped')}else{exception(DB.skippedToday,p,t);if(active&&active.key===key(p,t)){DB.events.push({type:'stop',date:today(),at:now(),plan:active.plan,name:active.name});active=null}toast('Skipped for today')}save();closeSheets();renderAll()}
+function deleteToday(){const el=document.getElementById('taskSheet'),p=el.dataset.plan,i=Number(el.dataset.index),t=allTasks(p)[i];if(!t)return;DB.hiddenToday.push({date:today(),key:key(p,t)});DB.oneOffTasks=DB.oneOffTasks.filter(o=>o.id!==t[3]);if(active&&active.key===key(p,t)){active=null}save();closeSheets();renderAll();toast('Removed for today')}
+function deleteForever(){const el=document.getElementById('taskSheet'),p=el.dataset.plan,i=Number(el.dataset.index),t=allTasks(p)[i];if(!t)return;if(t[3])DB.oneOffTasks=DB.oneOffTasks.filter(o=>o.id!==t[3]);else{const arr=planArr(p);const bi=t._index;if(Number.isInteger(bi))arr.splice(bi,1)}if(active&&active.key===key(p,t)){active=null}save();closeSheets();renderAll();toast('Deleted from plan')}
+function openQuick(){openSheet('quickSheet')}
+function openEditForTask(){const el=document.getElementById('taskSheet'),p=el.dataset.plan,i=Number(el.dataset.index),t=allTasks(p)[i];if(!t)return;editState={oldPlan:p,oldIndex:i,oldKey:key(p,t),oneOff:!!t[3],id:t[3]||null};document.getElementById('editTitle').textContent='Edit task';document.getElementById('editName').value=t[1];document.getElementById('editPlan').value=p;document.getElementById('editGroup').value=t[0];document.getElementById('editRepeat').value=t[3]?'Today only':'Every day from now on';openSheet('editSheet')}
+function addNewTask(){editState=null;document.getElementById('editTitle').textContent='Add task';document.getElementById('editName').value='';document.getElementById('editPlan').value='Regularly Plan';document.getElementById('editGroup').value='Morning';document.getElementById('editRepeat').value='Every day from now on';openSheet('editSheet')}
+function uid(){return (crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()))}
+function saveTask(){const name=document.getElementById('editName').value.trim();if(!name){toast('Add a task name');return}const p=document.getElementById('editPlan').value,g=document.getElementById('editGroup').value,r=document.getElementById('editRepeat').value;if(!editState){if(r==='Today only')DB.oneOffTasks.push({id:uid(),date:today(),plan:p,group:g,name,time:''});else planArr(p).push([g,name,''])}else{const oldList=allTasks(editState.oldPlan);const t=oldList[editState.oldIndex];if(editState.oneOff){const o=DB.oneOffTasks.find(x=>x.id===editState.id);if(o){if(r==='Today only'){o.plan=p;o.group=g;o.name=name}else{DB.oneOffTasks=DB.oneOffTasks.filter(x=>x.id!==editState.id);planArr(p).push([g,name,''])}}}else{const arr=planArr(editState.oldPlan);const idx=t._index;if(editState.oldPlan===p&&r==='Every day from now on'){arr[idx]=[g,name,arr[idx][2]||'']}else{arr.splice(idx,1);if(r==='Today only')DB.oneOffTasks.push({id:uid(),date:today(),plan:p,group:g,name,time:''});else planArr(p).push([g,name,''])}}}save();closeSheets();renderAll();toast(editState?'Task updated':'Task added')}
+function openSummary(){const ev=DB.events.filter(e=>e.date===today()).slice(-30);document.getElementById('summaryBody').innerHTML=ev.length?ev.map(e=>e.type==='complete'?`<div class="mini-task"><div class="grow"><strong>${esc(e.name)}</strong><div class="tiny">Finished at ${esc(e.finishedTime)} · ${e.duration} min</div></div></div>`:`<div class="mini-task"><div class="grow"><strong>${esc(e.name||'')}</strong><div class="tiny">${esc(e.type)} · ${e.at?time(e.at):''}</div></div></div>`).join(''):'Nothing recorded yet today.';openSheet('summarySheet')}
+function stuck(kind){const task=active?active.name:'the next task';const text={starting:'Open '+task+' and do only the first physical action.',tired:'Do the smallest version of '+task+' instead of forcing a full version.',confused:'Pause '+task+' and clarify exactly what needs to happen.',distracted:'Return to '+task+'. No recap is needed.',planning:'Stop planning '+task+'. Do the next physical action.'}[kind];DB.events.push({type:'stuck',date:today(),at:now(),plan:active?active.plan:'General',name:task,detail:text});save();document.getElementById('stuckTitle').textContent=kind==='starting'?'Start tiny':kind==='tired'?'Lower the demand':kind==='confused'?'Clarify first':kind==='distracted'?'Return gently':'Stop planning';document.getElementById('stuckBody').innerHTML=`<strong>${esc(text)}</strong><br><span class="tiny">You do not need to solve the whole day.</span>`;openSheet('stuckResponseSheet')}
+function exportJSON(){const payload={app:'Life',version:4,exportedAt:now(),data:DB};download('life-backup-'+today()+'.json',JSON.stringify(payload,null,2),'application/json')}
+function exportCSV(){const rows=[['Date','Time','Type','Plan','Task','Finished time','Duration','Detail']];DB.events.forEach(e=>rows.push([e.date,e.at?time(e.at):'',e.type,e.plan||'',e.name||'',e.finishedTime||'',e.duration||'',e.detail||'']));download('life-activity-'+today()+'.csv',rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'),'text/csv')}
+function downloadSummary(){const text=['Life — '+today(),'','Routine plan: '+DB.routineMode,'','Routine tasks:',...allTasks(DB.routineMode).map(t=>'- '+t[1]+' — '+(completed(DB.routineMode,t[1])?'Done':skipped(DB.routineMode,t)?'Skipped':'Pending')),'','Study tasks:',...allTasks('Study').map(t=>'- '+t[1]+' — '+(completed('Study',t[1])?'Done':skipped('Study',t)?'Skipped':'Pending')),'','Weight:',...DB.weights.map(w=>w.date+' — '+w.weight+' kg'),'','Subject revisions:',...DB.subjects.map(s=>s[0]+' — '+s[1]+' — '+s[2])].join('\n');download('life-summary-'+today()+'.txt',text,'text/plain')}
+function download(name,data,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Export ready')}
+function importJSON(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(r.result);DB=Object.assign(DB,p.data);save();renderAll();toast('Backup imported')}catch{toast('Could not read that backup')}};r.readAsText(file)}
+
+// Events
+for(const b of document.querySelectorAll('[data-nav]'))b.onclick=()=>show(b.dataset.nav);
+for(const b of document.querySelectorAll('[data-back]'))b.onclick=()=>show(b.dataset.back);
+document.getElementById('routineOpen').onclick=()=>show('routine');document.getElementById('studyOpen').onclick=()=>show('study');document.getElementById('regTab').onclick=()=>{selectedPlan='Regularly Plan';DB.routineMode='Regularly Plan';save();renderRoutine();renderHome();toast('Regularly Plan active')};document.getElementById('fallTab').onclick=()=>{selectedPlan='Fall Back Plan';DB.routineMode='Fall Back Plan';save();renderRoutine();renderHome();toast('Fall Back Plan active')};document.getElementById('finishBtn').onclick=completeTask;document.getElementById('homeQuick').onclick=openQuick;document.getElementById('stuckBtn').onclick=()=>openSheet('stuckSheet');document.getElementById('happenedBtn').onclick=openSummary;document.getElementById('routineModeLabel').onclick=()=>{};
+document.getElementById('switchPlanBtn')?.remove();
+document.getElementById('weightOpen').onclick=()=>show('weight');document.getElementById('subjectsOpen').onclick=()=>show('subjects');document.getElementById('exportOpen').onclick=()=>show('export');document.getElementById('quickWeight').onclick=()=>{closeSheets();show('weight')};document.getElementById('quickSubjects').onclick=()=>{closeSheets();show('subjects')};document.getElementById('quickExport').onclick=()=>{closeSheets();show('export')};document.getElementById('quickAdd').onclick=addNewTask;
+for(const el of document.querySelectorAll('[data-close]'))el.onclick=closeSheets;document.getElementById('sheetBg').onclick=closeSheets;document.getElementById('closeSheet').onclick=closeSheets;
+document.getElementById('taskStart').onclick=()=>{const p=document.getElementById('taskSheet').dataset.plan,i=Number(document.getElementById('taskSheet').dataset.index);startTask(p,i)};document.getElementById('taskPause').onclick=pauseTask;document.getElementById('taskResume').onclick=resumeTask;document.getElementById('taskComplete').onclick=completeTask;document.getElementById('taskStop').onclick=stopTask;document.getElementById('taskSkip').onclick=toggleSkip;document.getElementById('taskDeleteToday').onclick=deleteToday;document.getElementById('taskDeleteForever').onclick=deleteForever;document.getElementById('taskEdit').onclick=openEditForTask;
+document.getElementById('stuckBack').onclick=()=>{closeSheets();if(active)openTask(active.plan,active.index)};document.getElementById('stuckHome').onclick=()=>{closeSheets();show('home')};document.querySelectorAll('[data-stuck]').forEach(b=>b.onclick=()=>stuck(b.dataset.stuck));
+document.getElementById('saveWeight').onclick=()=>{const v=Number(document.getElementById('weightInput').value);if(!v){toast('Enter a weight');return}DB.weights.push({date:today(),weight:v});save();document.getElementById('weightInput').value='';renderWeight();renderTrack();toast('Weight saved')};
+document.getElementById('exportJson').onclick=exportJSON;document.getElementById('exportCsv').onclick=exportCSV;document.getElementById('exportText').onclick=downloadSummary;document.getElementById('printPdf').onclick=()=>window.print();document.getElementById('importBackup').onclick=()=>document.getElementById('importFile').click();document.getElementById('importFile').onchange=e=>e.target.files[0]&&importJSON(e.target.files[0]);document.getElementById('saveTask').onclick=saveTask;
+document.body.addEventListener('click',e=>{const s=e.target.closest('[data-start]');if(s)startTask(s.dataset.plan,Number(s.dataset.index));const m=e.target.closest('[data-more]');if(m)openTask(m.dataset.plan,Number(m.dataset.index));const r=e.target.closest('[data-revision]');if(r){const i=Number(r.dataset.revision);DB.subjects[i][2]++;DB.events.push({type:'revision',date:today(),at:now(),plan:'Revision',name:DB.subjects[i][1]+' revision',finishedTime:time(new Date()),duration:0});save();renderSubjects();renderTrack();toast('Revision recorded')}});
+renderAll();
+</script>
+</div>
+</body>
+</html>
