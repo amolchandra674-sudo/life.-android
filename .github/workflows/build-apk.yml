@@ -32,7 +32,7 @@ jobs:
           packages: platform-tools
 
       - name: Install SDK
-        run: sdkmanager "platforms;android-37" "build-tools;36.0.0"
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Build debug APK
         run: gradle --no-daemon :app:assembleDebug
