@@ -1,0 +1,19 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.life.app'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId 'com.life.app'
+        minSdk 29
+        targetSdk 37
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    buildTypes {
+        debug { }
+        release { minifyEnabled false }
+    }
+}
