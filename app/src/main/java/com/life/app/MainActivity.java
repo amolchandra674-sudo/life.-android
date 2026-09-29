@@ -2,6 +2,10 @@ package com.life.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Build;
+import android.view.View;
+import android.view.WindowInsets;
+import android.graphics.Insets;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -9,6 +13,7 @@ import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,14 +27,46 @@ public class MainActivity extends Activity {
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
+
+        getWindow().setStatusBarColor(0xFFF7F2E8);
+        getWindow().setNavigationBarColor(0xFFF7F2E8);
+
+        FrameLayout root = new FrameLayout(this);
+        root.setBackgroundColor(0xFFF7F2E8);
+
         webView = new WebView(this);
-        setContentView(webView);
         webView.setBackgroundColor(0xFFF7F2E8);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
         webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new LifeBridge(), "Android");
+
+        root.addView(webView, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT));
+
+        // Android 15+ enforces edge-to-edge for modern target SDKs.
+        // Keep Life's bottom navigation above the phone's system navigation area.
+        root.setOnApplyWindowInsetsListener((v, insets) -> {
+            int top;
+            int bottom;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                Insets bars = insets.getInsets(
+                        WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
+                top = bars.top;
+                bottom = bars.bottom;
+            } else {
+                top = insets.getSystemWindowInsetTop();
+                bottom = insets.getSystemWindowInsetBottom();
+            }
+            v.setPadding(0, top, 0, bottom);
+            return insets;
+        });
+
+        setContentView(root);
+        root.requestApplyInsets();
+
         webView.loadUrl("file:///android_asset/index.html");
     }
 
