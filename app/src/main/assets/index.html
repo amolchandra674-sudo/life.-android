@@ -49,7 +49,7 @@ button{border:1px solid var(--line);border-radius:13px;background:var(--card);co
 .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.metric{padding:13px;border:1px solid var(--line);border-radius:15px;background:var(--card)}.metric strong{font-size:18px}
 .bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:8;width:calc(100% - 24px);max-width:520px;background:rgba(255,253,248,.94);backdrop-filter:blur(18px);border:1px solid rgba(229,221,207,.95);box-shadow:0 12px 35px rgba(67,58,44,.13);padding:7px;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);margin:auto}.bottom button{border:0;background:transparent;color:var(--muted);padding:8px 4px 7px;border-radius:15px;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.bottom button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.bottom button.active{background:#eef3ea;color:#4f684f;box-shadow:none}.bottom button.active svg{stroke-width:2}
 .toast{position:fixed;left:50%;bottom:93px;transform:translateX(-50%) translateY(10px);padding:10px 13px;border-radius:13px;background:#334238;color:#fff;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.footer{text-align:center;color:var(--muted);font-size:11px;margin:14px 0}.empty{text-align:center;color:var(--muted);padding:20px 8px}
+.footer{text-align:center;color:var(--muted);font-size:11px;margin:14px 0}.empty{text-align:center;color:var(--muted);padding:20px 8px}.occasional-list{margin-top:12px}.occasional-note{font-size:12px;color:var(--muted);margin-top:3px;white-space:pre-wrap;word-break:break-word}
 
 @media(max-width:520px){.actions{grid-template-columns:1fr}.actions .wide{grid-column:auto}.current-title{font-size:27px}}
 @media print{.topbar,.bottom,.actions,.flow,.quick,.no-print{display:none!important}.screen{display:block!important}.card,.hero{box-shadow:none;background:#fff;border:1px solid #ddd}.app{padding:0}.sheet,.sheet-bg{display:none!important}.print-only{display:block}}
@@ -107,9 +107,11 @@ button{border:1px solid var(--line);border-radius:13px;background:var(--card);co
 <section id="track" class="screen">
   <div class="card today-card"><div class="eyebrow">Track</div><div class="title">Life records</div><div class="section-sub">Everything stays on this device unless you export it.</div>
     <div class="metric-grid"><div class="metric"><div class="tiny">Latest weight</div><strong id="latestWeight">—</strong></div><div class="metric"><div class="tiny">Total revisions</div><strong id="totalRevisions">0</strong></div></div>
-    <div class="sheet-actions"><button class="option" id="weightOpen">Weight</button><button class="option" id="subjectsOpen">Subject revisions</button><button class="option" id="exportOpen">Export / backup</button></div>
+    <div class="sheet-actions"><button class="option" id="weightOpen">Weight</button><button class="option" id="subjectsOpen">Subject revisions</button><button class="option" id="occasionalOpen">Occasional tasks</button><button class="option" id="exportOpen">Export / backup</button></div>
   </div>
 </section>
+
+<section id="occasional" class="screen"><div class="card today-card"><div class="row"><div><div class="eyebrow">Track</div><div class="title">Occasional tasks</div><div class="section-sub">Things that came to mind and need doing sometime.</div></div><button class="open-link" data-back="track">Back</button></div><button class="primary" id="occasionalAdd" style="margin-top:12px">+ Add task</button><div id="occasionalList" class="occasional-list"></div><div class="soft-note">Completed occasional tasks leave this list and stay in What happened?</div></div></section>
 
 <section id="weight" class="screen">
   <div class="card today-card"><div class="row"><div><div class="eyebrow">Health</div><div class="title">Weight</div></div><button class="open-link" data-back="track">Back</button></div>
@@ -150,6 +152,8 @@ button{border:1px solid var(--line);border-radius:13px;background:var(--card);co
   <div class="soft-note" id="stuckBody" style="margin-top:12px"></div><div class="sheet-actions"><button class="primary" id="stuckBack">Back to task</button><button id="stuckHome">Back to home</button></div>
 </div>
 
+<div class="sheet" id="occasionalActionSheet"><div class="handle"></div><div class="row"><div><h2 id="occasionalActionTitle">Occasional task</h2><div class="tiny" id="occasionalActionNote"></div></div><button class="ghost" data-close>×</button></div><div class="sheet-actions"><button class="option" id="occasionalComplete">Complete</button><button class="option" id="occasionalEdit">Edit</button><button class="option danger" id="occasionalDelete">Delete</button></div></div>
+<div class="sheet" id="occasionalEditSheet"><div class="handle"></div><div class="row"><div><h2 id="occasionalEditTitle">Add occasional task</h2><div class="tiny">Only the task and an optional note.</div></div><button class="ghost" data-close>×</button></div><label>Task name<input class="input" id="occasionalName" placeholder="e.g. Call the bank"></label><label>Note (optional)<textarea class="input" id="occasionalNote" rows="3" placeholder="Anything useful to remember"></textarea></label><div class="sheet-actions"><button class="primary" id="saveOccasional">Save task</button></div></div>
 <div class="sheet" id="summarySheet"><div class="handle"></div><div class="row"><div><h2>What happened?</h2><div class="tiny">Recent activity, including finish times.</div></div><button class="ghost" data-close>×</button></div><div id="summaryBody" class="soft-note" style="margin-top:12px"></div></div>
 
 <div class="sheet" id="editSheet"><div class="handle"></div><div class="row"><div><h2 id="editTitle">Add task</h2><div class="tiny">Choose where it belongs and how often it repeats.</div></div><button class="ghost" data-close>×</button></div>
