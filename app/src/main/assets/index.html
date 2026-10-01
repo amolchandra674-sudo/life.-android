@@ -42,7 +42,7 @@ button{border:1px solid var(--line);border-radius:13px;background:var(--card);co
 .open-link{border:0;background:transparent;color:var(--green);padding:5px 0}.open-link:hover{transform:none;text-decoration:underline}
 .soft-note{padding:10px 12px;border:1px dashed var(--line);border-radius:13px;color:var(--muted);font-size:12px;margin-top:10px}
 .plan-toggle{display:flex;background:#eee7dc;padding:4px;border-radius:14px;gap:4px;margin:12px 0}.plan-toggle button{flex:1;border:0;background:transparent;padding:9px;border-radius:10px;color:var(--muted)}.plan-toggle button.active{background:var(--card);box-shadow:0 2px 10px rgba(67,58,44,.07);color:var(--text);font-weight:700}
-.scrollbox{max-height:68vh;overflow:auto;padding-right:3px}.task-list-card{padding:14px}.task{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:15px;background:rgba(255,253,248,.75);border:1px solid var(--line);margin-top:7px}.task.active{border-color:#a7bca3;box-shadow:0 0 0 1px rgba(95,120,96,.12)}.task.done{opacity:.58}.task.skip{background:#fbf4ed;border-color:#eadbcf}.task-name{font-weight:700}.task-meta{font-size:11px;color:var(--muted);margin-top:2px}.task-actions{display:flex;gap:6px}.small{padding:8px 9px;border-radius:10px}.more{width:39px;padding:8px 0;text-align:center;font-size:18px}.task.sort-item{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:pan-y;position:relative;will-change:transform}.task.sort-item button{user-select:auto;-webkit-user-select:auto}.task.sort-source{visibility:hidden!important}.drag-ghost{position:fixed;z-index:60;pointer-events:none;margin:0!important;box-shadow:0 18px 45px rgba(67,58,44,.22);border-color:#9fb39b!important;opacity:1!important;transform:translate3d(0,0,0) scale(1.025);transform-origin:center center;transition:none!important}.drag-placeholder{border:1px dashed #b9c8b3;background:rgba(231,239,229,.68);border-radius:15px;margin-top:7px;min-height:56px;box-sizing:border-box}.drag-placeholder.occasional{margin-top:7px}.drag-active{overflow:hidden!important}
+.scrollbox{max-height:68vh;overflow:auto;padding-right:3px}.task-list-card{padding:14px}.task{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:15px;background:rgba(255,253,248,.75);border:1px solid var(--line);margin-top:7px}.task.active{border-color:#a7bca3;box-shadow:0 0 0 1px rgba(95,120,96,.12)}.task.done{opacity:.58}.task.skip{background:#fbf4ed;border-color:#eadbcf}.task-name{font-weight:700}.task-meta{font-size:11px;color:var(--muted);margin-top:2px}.task-actions{display:flex;gap:6px}.small{padding:8px 9px;border-radius:10px}.more{width:39px;padding:8px 0;text-align:center;font-size:18px}.task.sort-item{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:pan-y;position:relative;will-change:transform}.task.sort-item button{user-select:auto;-webkit-user-select:auto}.task.sort-source{visibility:hidden!important;pointer-events:none!important}.drag-ghost{position:fixed;z-index:60;pointer-events:none;margin:0!important;box-shadow:0 18px 45px rgba(67,58,44,.22);border-color:#9fb39b!important;opacity:1!important;transform:translate3d(0,0,0) scale(1.025);transform-origin:center center;transition:none!important}.drag-placeholder{border:1px dashed #b9c8b3;background:rgba(231,239,229,.68);border-radius:15px;margin-top:7px;min-height:56px;box-sizing:border-box}.drag-placeholder.occasional{margin-top:7px}.drag-active{overflow:hidden!important}
 .sheet-bg{position:fixed;inset:0;background:rgba(60,54,45,.32);backdrop-filter:blur(3px);display:none;z-index:20}.sheet-bg.open{display:block}.sheet{position:fixed;z-index:21;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);max-height:86vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:24px 24px 0 0;box-shadow:0 -20px 70px rgba(68,59,45,.18);padding:17px 16px calc(22px + env(safe-area-inset-bottom));display:none}.sheet.open{display:block}.handle{width:40px;height:4px;background:#d7cdbd;border-radius:99px;margin:0 auto 14px}.sheet h2{font-size:19px;margin:0}.option{width:100%;text-align:left;background:var(--card);margin-top:8px}.option:hover{background:#f8f3e9}.input,select{width:100%;padding:11px 12px;background:#fffdf8;border:1px solid var(--line);border-radius:12px;color:var(--text);margin-top:6px}label{display:block;font-size:12px;color:var(--muted);margin-top:11px}.sheet-actions{display:grid;gap:8px;margin-top:12px}.sheet-actions.grid2{grid-template-columns:1fr 1fr}
 .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;margin-top:12px}.table{width:100%;border-collapse:collapse;min-width:330px}.table th,.table td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left}.table th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:#f3eee4}.table tr:last-child td{border-bottom:0}
 .subject-group{margin-top:15px}.subject-group:first-child{margin-top:0}.subject-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px}.subject-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.subject-row:last-child{border-bottom:0}.count{font-size:12px;color:var(--green)}
@@ -238,7 +238,13 @@ function renderSubjects(){const root=document.getElementById('subjectList'),year
 function openSubjectEdit(i){const s=DB.subjects[i];if(!s)return;document.getElementById('subjectEditSheet').dataset.index=i;document.getElementById('subjectEditTitle').textContent='Edit '+s[1];document.getElementById('subjectCountInput').value=s[2];openSheet('subjectEditSheet')}
 function adjustSubjectCount(delta){const el=document.getElementById('subjectCountInput');const v=Math.max(0,Number(el.value||0)+delta);el.value=v}
 function saveSubjectCount(){const i=Number(document.getElementById('subjectEditSheet').dataset.index),v=Math.max(0,parseInt(document.getElementById('subjectCountInput').value,10)||0);if(!DB.subjects[i])return;DB.subjects[i][2]=v;save();closeSheets();renderSubjects();renderTrack();toast('Count updated')}
-function renderOccasional(){const root=document.getElementById('occasionalList'),list=DB.occasionalTasks||[];if(!list.length){root.innerHTML='<div class="empty">Nothing here yet.</div>';return}root.innerHTML=list.map(function(o){return '<div class="task"><div class="grow"><div class="task-name">'+esc(o.name)+'</div>'+(o.note?'<div class="occasional-note">'+esc(o.note)+'</div>':'')+'</div><button class="more" data-occ-more="'+esc(o.id)+'">⋯</button></div>'}).join('')}
+function renderOccasional(){
+  const root=document.getElementById('occasionalList'),list=DB.occasionalTasks||[];
+  if(!list.length){root.innerHTML='<div class="empty">Nothing here yet.</div>';return}
+  root.innerHTML=list.map(function(o){
+    return '<div class="task sort-item" data-sort-kind="occasional" data-sort-id="'+esc(o.id)+'"><div class="grow"><div class="task-name">'+esc(o.name)+'</div>'+(o.note?'<div class="occasional-note">'+esc(o.note)+'</div>':'')+'</div><button class="more" data-occ-more="'+esc(o.id)+'">⋯</button></div>'
+  }).join('')
+}
 function findOccasional(id){return (DB.occasionalTasks||[]).find(function(o){return o.id===id})}
 function removeOccasional(){const id=document.getElementById('occasionalActionSheet').dataset.id,o=findOccasional(id);if(!o)return;DB.occasionalTasks=DB.occasionalTasks.filter(function(x){return x.id!==id});save();closeSheets();renderOccasional();toast('Removed')}
 function openOccasionalAction(id){const o=findOccasional(id);if(!o)return;document.getElementById('occasionalActionSheet').dataset.id=id;document.getElementById('occasionalActionTitle').textContent=o.name;document.getElementById('occasionalActionNote').textContent=o.note||'Occasional task';openSheet('occasionalActionSheet')}
@@ -381,71 +387,52 @@ function moveSort(e){
   animateSortPositions(before);
 }
 function desiredPlanOrder(d){
-  const arr=planArr(d.plan),byIndex=new Map(arr.map(function(item,i){return [String(i),{item:item,index:i}]}));
-  const groupsEls=[...document.querySelectorAll('.time-group')];
-  const desired=[];
-  groupsEls.forEach(function(g){
-    g.querySelectorAll('.sort-item[data-sort-kind="plan"][data-sort-plan]').forEach(function(el){
-      const rec=byIndex.get(el.dataset.baseIndex);if(rec)desired.push(rec.index);
-      });
-    if(d.placeholder&&g.contains(d.placeholder)){
-      const groupName=g.querySelector('.time-head span')?.textContent||d.group||'Morning';
-      d.placeholder.dataset.sortGroup=groupName;
+  const arr=planArr(d.plan),sourceIndex=Number(d.source.dataset.baseIndex);
+  if(!Number.isInteger(sourceIndex)||!arr[sourceIndex])return arr.slice();
+  const order=[],seen=new Set();let targetGroup=arr[sourceIndex][0];
+  const root=d.source.closest('.scrollbox')||document;
+  root.querySelectorAll('.time-group').forEach(function(group){
+    const groupName=group.querySelector('.time-head span')?.textContent||targetGroup;
+    const kids=[...group.querySelectorAll('.sort-item[data-sort-kind="plan"][data-sort-plan]')];
+    for(const el of kids){
+      const idx=Number(el.dataset.baseIndex);
+      if(!Number.isInteger(idx)||idx===sourceIndex||seen.has(idx)||getComputedStyle(el).visibility==='hidden')continue;
+      if(d.placeholder&&d.placeholder.parentElement===group&&d.placeholder.nextElementSibling===el&&!seen.has(sourceIndex)){
+        order.push(sourceIndex);seen.add(sourceIndex);targetGroup=groupName;
+      }
+      order.push(idx);seen.add(idx);
+    }
+    if(d.placeholder&&d.placeholder.parentElement===group&&!seen.has(sourceIndex)){
+      order.push(sourceIndex);seen.add(sourceIndex);targetGroup=groupName;
     }
   });
-  const remaining=arr.map((_,i)=>i).filter(function(i){return i!==Number(d.source.dataset.baseIndex)&&desired.indexOf(i)<0});
-  remaining.forEach(function(i){if(desired.indexOf(i)<0)desired.push(i)});
-  const sourceIndex=Number(d.source.dataset.baseIndex);
-  const item=arr[sourceIndex];
-  if(!item)return arr;
-  item[0]=d.placeholder.dataset.sortGroup||item[0];
-  const result=desired.map(function(i){return arr[i]}).filter(Boolean);
-  const phGroup=d.placeholder.dataset.sortGroup||item[0];
-  if(!result.includes(item)){
-    let insertAt=result.length;
-    if(d.placeholder){
-      const sibling=d.placeholder.nextElementSibling;
-      if(sibling&&sibling.matches('.sort-item')){
-        const sibIdx=desired.indexOf(Number(sibling.dataset.baseIndex));
-        if(sibIdx>=0)insertAt=sibIdx;
-      }
-    }
-    result.splice(Math.min(insertAt,result.length),0,item);
-  }
-  return result;
+  if(!seen.has(sourceIndex)){order.push(sourceIndex);seen.add(sourceIndex)}
+  for(let i=0;i<arr.length;i++)if(!seen.has(i)){order.push(i);seen.add(i)}
+  arr[sourceIndex][0]=targetGroup;
+  return order.map(function(i){return arr[i]}).filter(Boolean);
 }
 function commitSort(d){
   if(d.kind==='occasional'){
-    const list=DB.occasionalTasks||[];
-    const byId=new Map(list.map(function(o){return [o.id,o]}));
-    const ordered=[];
-    const group=d.placeholder&&d.placeholder.parentElement;
-    if(group){
-      group.parentElement.querySelectorAll('.sort-item[data-sort-kind="occasional"]').forEach(function(el){
-        const o=byId.get(el.dataset.sortId);if(o)ordered.push(o);
-      });
-    }
+    const list=DB.occasionalTasks||[],byId=new Map(list.map(function(o){return [o.id,o]}));
+    const container=document.getElementById('occasionalList'),order=[],seen=new Set();
+    const nextOf=function(el){return el&&el.nextElementSibling&&el.nextElementSibling.matches('.sort-item[data-sort-kind="occasional"]')?el.nextElementSibling:null};
+    const prevOf=function(el){return el&&el.previousElementSibling&&el.previousElementSibling.matches('.sort-item[data-sort-kind="occasional"]')?el.previousElementSibling:null};
+    container.querySelectorAll('.sort-item[data-sort-kind="occasional"]').forEach(function(el){
+      if(getComputedStyle(el).visibility==='hidden')return;
+      const id=el.dataset.sortId;if(!id||seen.has(id))return;const item=byId.get(id);
+      if(item){order.push(item);seen.add(id)}
+    });
     const dragged=byId.get(d.source.dataset.sortId);
-    if(dragged){
-      let insertAt=ordered.length;
-      if(d.placeholder){
-        let n=d.placeholder.nextElementSibling,count=0;
-        while(n){
-          if(n.matches&&n.matches('.sort-item[data-sort-kind="occasional"]')){
-            const idx=ordered.findIndex(function(o){return o.id===n.dataset.sortId});
-            if(idx>=0){insertAt=idx;break}
-          }
-          n=n.nextElementSibling;
-        }
-      }
-      ordered.splice(Math.min(insertAt,ordered.length),0,dragged);
+    if(dragged&&!seen.has(dragged.id)){
+      let insertAt=order.length,n=nextOf(d.placeholder),p=prevOf(d.placeholder);
+      if(n){const idx=order.findIndex(function(o){return o.id===n.dataset.sortId});if(idx>=0)insertAt=idx}
+      else if(p){const idx=order.findIndex(function(o){return o.id===p.dataset.sortId});if(idx>=0)insertAt=idx+1}
+      order.splice(Math.min(insertAt,order.length),0,dragged);seen.add(dragged.id);
     }
-    const used=new Set(ordered.map(function(o){return o.id}));
-    list.forEach(function(o){if(!used.has(o.id))ordered.push(o)});
-    DB.occasionalTasks=ordered;
-    return;
+    list.forEach(function(o){if(!seen.has(o.id))order.push(o)});
+    DB.occasionalTasks=order;return;
   }
-  const arr=planArr(d.plan),newArr=desiredPlanOrder(d);
+  const newArr=desiredPlanOrder(d);
   if(d.plan==='Regularly Plan')DB.regular=newArr;
   else if(d.plan==='Fall Back Plan')DB.fallback=newArr;
   else DB.study=newArr;
