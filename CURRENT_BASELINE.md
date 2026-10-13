@@ -3,8 +3,8 @@
 ## Authority and verification
 
 - **Verified baseline:** v27, Android version name `1.0.27` (CI run number 27).
-- **Source of truth:** the `main` branch at commit `51df53cffb289aeda09203395ea67a221a87b2ff`.
-- **Verification evidence:** GitHub Actions run 27 completed successfully on that exact commit; the resulting APK was retained as a recovery copy. The user then confirmed on-device: “Works well / Nothing breaking” after testing the drag interactions.
+- **Authoritative app-code baseline:** commit `51df53cffb289aeda09203395ea67a221a87b2ff` (`Fix occasional sorting and make reorder deterministic without duplicates`). This is the latest commit that changed application source; subsequent commit(s) add baseline documentation only.
+- **Verification evidence:** GitHub Actions run 27 built successfully from that app-code commit. The recovered APK matches the APK inside the run-27 Actions artifact (SHA-256 `d6e0639e608e8ba2a44e5b9e267ea6b3eff3e2d99e22e998ea1fb10bd26bcb3e`). The user then confirmed on-device: “Works well / Nothing breaking” after testing the drag interactions.
 - Do not use older APKs or earlier source iterations as the starting point unless investigating a specific regression.
 
 ## Source and entry point
